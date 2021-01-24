@@ -27,17 +27,24 @@ export class HandlerRegister<T, TypeT extends Type<T> = Type<T>> {
     return true;
   }
 
-  async get<C>(command: C): Promise<T | undefined> {
+  async get<C>(
+    command: C,
+    moduleRef: ModuleRef | undefined,
+  ): Promise<T | undefined> {
     const commandName = getClassName(command);
     let handler = this.singletonHandlers.get(commandName);
 
     if (!handler) {
-      const contextId = ContextIdFactory.create();
       const handlerType = this.scopedHandlers.get(commandName);
-      if (handlerType) {
-        handler = await this.moduleRef.resolve(handlerType, contextId, {
-          strict: false,
-        });
+      if (moduleRef) {
+        handler = this.moduleRef.get(handlerType);
+      } else {
+        const contextId = ContextIdFactory.create();
+        if (handlerType) {
+          handler = await this.moduleRef.resolve(handlerType, contextId, {
+            strict: false,
+          });
+        }
       }
     }
 

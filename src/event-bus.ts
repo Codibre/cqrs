@@ -76,7 +76,7 @@ export class EventBus<EventBase extends IEvent = IEvent>
 
   private subscribeCallbackFactory() {
     return async (event: EventBase) => {
-      const instance = await this.handlers.get(event);
+      const instance = await this.handlers.get(event, undefined);
       instance.handle(event);
     };
   }

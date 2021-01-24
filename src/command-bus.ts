@@ -40,8 +40,11 @@ export class CommandBus<CommandBase extends ICommand = ICommand>
     this._publisher = _publisher;
   }
 
-  async execute<T extends CommandBase>(command: T): Promise<any> {
-    const handler = await this.handlers.get(command);
+  async execute<T extends CommandBase>(
+    command: T,
+    moduleRef?: ModuleRef,
+  ): Promise<any> {
+    const handler = await this.handlers.get(command, moduleRef);
     if (!handler) {
       throw new CommandHandlerNotFoundException(getClassName(command));
     }

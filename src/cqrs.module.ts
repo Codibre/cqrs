@@ -1,3 +1,5 @@
+import { TransiantQueryBus } from './transient-query-bus';
+import { TransiantCommandBus } from './transient-command-bus';
 import { Module, OnApplicationBootstrap } from '@nestjs/common';
 import { CommandBus } from './command-bus';
 import { EventBus } from './event-bus';
@@ -7,8 +9,23 @@ import { QueryBus } from './query-bus';
 import { ExplorerService } from './services/explorer.service';
 
 @Module({
-  providers: [CommandBus, QueryBus, EventBus, EventPublisher, ExplorerService],
-  exports: [CommandBus, QueryBus, EventBus, EventPublisher],
+  providers: [
+    CommandBus,
+    QueryBus,
+    TransiantCommandBus,
+    TransiantQueryBus,
+    EventBus,
+    EventPublisher,
+    ExplorerService,
+  ],
+  exports: [
+    CommandBus,
+    QueryBus,
+    TransiantCommandBus,
+    TransiantQueryBus,
+    EventBus,
+    EventPublisher,
+  ],
 })
 export class CqrsModule<EventBase extends IEvent = IEvent>
   implements OnApplicationBootstrap {

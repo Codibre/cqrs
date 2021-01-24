@@ -46,8 +46,9 @@ export class QueryBus<QueryBase extends IQuery = IQuery>
 
   async execute<T extends QueryBase, TResult = any>(
     query: T,
+    moduleRef?: ModuleRef,
   ): Promise<TResult> {
-    const handler = await this.handlers.get(query);
+    const handler = await this.handlers.get(query, moduleRef);
     if (!handler) {
       throw new QueryHandlerNotFoundException(getClassName(query));
     }
