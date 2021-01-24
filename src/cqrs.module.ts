@@ -1,5 +1,5 @@
-import { TransiantQueryBus } from './transient-query-bus';
-import { TransiantCommandBus } from './transient-command-bus';
+import { TransientQueryBus } from './transient-query-bus';
+import { TransientCommandBus } from './transient-command-bus';
 import { Module, OnApplicationBootstrap } from '@nestjs/common';
 import { CommandBus } from './command-bus';
 import { EventBus } from './event-bus';
@@ -12,8 +12,8 @@ import { ExplorerService } from './services/explorer.service';
   providers: [
     CommandBus,
     QueryBus,
-    TransiantCommandBus,
-    TransiantQueryBus,
+    TransientCommandBus,
+    TransientQueryBus,
     EventBus,
     EventPublisher,
     ExplorerService,
@@ -21,8 +21,8 @@ import { ExplorerService } from './services/explorer.service';
   exports: [
     CommandBus,
     QueryBus,
-    TransiantCommandBus,
-    TransiantQueryBus,
+    TransientCommandBus,
+    TransientQueryBus,
     EventBus,
     EventPublisher,
   ],

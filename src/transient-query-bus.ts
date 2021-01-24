@@ -5,7 +5,7 @@ import { ICommand } from './interfaces';
 import { ModuleRef } from '@nestjs/core';
 
 @Injectable({ scope: Scope.TRANSIENT })
-export class TransiantQueryBus implements ICommandBus {
+export class TransientQueryBus implements ICommandBus {
   constructor(private commandBus: CommandBus, private moduleRef: ModuleRef) {}
 
   execute<T extends ICommand>(command: T): Promise<any> {

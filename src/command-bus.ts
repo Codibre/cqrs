@@ -5,7 +5,6 @@ import 'reflect-metadata';
 import { COMMAND_HANDLER_METADATA } from './decorators/constants';
 import { CommandHandlerNotFoundException } from './exceptions/command-not-found.exception';
 import { DefaultCommandPubSub } from './helpers/default-command-pubsub';
-import { InvalidCommandHandlerException } from './index';
 import {
   ICommand,
   ICommandBus,
@@ -14,6 +13,7 @@ import {
 } from './interfaces/index';
 import { ObservableBus } from './utils/observable-bus';
 import { getClassName } from './utils';
+import { InvalidCommandHandlerException } from './exceptions';
 
 export type CommandHandlerType = Type<ICommandHandler<ICommand>>;
 
