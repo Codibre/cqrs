@@ -1,14 +1,14 @@
 import { CommandBus } from './command-bus';
 import { ICommandBus } from './interfaces/commands/command-bus.interface';
-import { Injectable, Scope } from '@nestjs/common';
+import { Inject, Injectable, Scope } from '@nestjs/common';
 import { ICommand } from './interfaces';
-import { ModuleRef } from '@nestjs/core';
+import { REQUEST, ContextIdFactory } from '@nestjs/core';
 
 @Injectable({ scope: Scope.TRANSIENT })
 export class TransientQueryBus implements ICommandBus {
-  constructor(private commandBus: CommandBus, private moduleRef: ModuleRef) {}
+  constructor(private commandBus: CommandBus, @Inject(REQUEST) private request: unknown) {}
 
   execute<T extends ICommand>(command: T): Promise<any> {
-    return this.commandBus.execute(command, this.moduleRef);
+    return this.commandBus.execute(command, ContextIdFactory.getByRequest(this.request));
   }
 }

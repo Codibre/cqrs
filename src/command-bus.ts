@@ -1,6 +1,6 @@
 import { HandlerRegister } from './utils/handler-register';
 import { Injectable, Type } from '@nestjs/common';
-import { ModuleRef } from '@nestjs/core';
+import { ModuleRef, ContextId } from '@nestjs/core';
 import 'reflect-metadata';
 import { COMMAND_HANDLER_METADATA } from './decorators/constants';
 import { CommandHandlerNotFoundException } from './exceptions/command-not-found.exception';
@@ -42,9 +42,9 @@ export class CommandBus<CommandBase extends ICommand = ICommand>
 
   async execute<T extends CommandBase>(
     command: T,
-    moduleRef?: ModuleRef,
+    contextId?: ContextId,
   ): Promise<any> {
-    const handler = await this.handlers.get(command, moduleRef);
+    const handler = await this.handlers.get(command, contextId);
     if (!handler) {
       throw new CommandHandlerNotFoundException(getClassName(command));
     }

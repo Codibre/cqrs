@@ -27,10 +27,10 @@ describe('QueryBus', () => {
       const execute = jest.fn().mockResolvedValue('expected result');
       get.mockResolvedValue({ execute } as any);
 
-      const result = await target.execute('my query');
+      const result = await target.execute('my query', { id: 1111 });
 
       expect(get).toHaveBeenCalledTimes(1);
-      expect(get).toHaveBeenCalledWith('my query');
+      expect(get).toHaveBeenCalledWith('my query', { id: 1111 });
       expect(execute).toHaveBeenCalledTimes(1);
       expect(execute).toHaveBeenCalledWith('my query');
       expect(result).toBe('expected result');
@@ -41,13 +41,13 @@ describe('QueryBus', () => {
       let thrownError: any;
 
       try {
-        await target.execute('my query');
+        await target.execute('my query', { id: 1111 });
       } catch (error) {
         thrownError = error;
       }
 
       expect(get).toHaveBeenCalledTimes(1);
-      expect(get).toHaveBeenCalledWith('my query');
+      expect(get).toHaveBeenCalledWith('my query', { id: 1111 });
       expect(thrownError).toBeInstanceOf(QueryHandlerNotFoundException);
     });
   });

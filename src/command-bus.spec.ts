@@ -27,10 +27,10 @@ describe('CommandBus', () => {
       const execute = jest.fn().mockResolvedValue('expected result');
       get.mockResolvedValue({ execute } as any);
 
-      const result = await target.execute('my command');
+      const result = await target.execute('my command', { id: 1111 });
 
       expect(get).toHaveBeenCalledTimes(1);
-      expect(get).toHaveBeenCalledWith('my command');
+      expect(get).toHaveBeenCalledWith('my command', { id: 1111 });
       expect(execute).toHaveBeenCalledTimes(1);
       expect(execute).toHaveBeenCalledWith('my command');
       expect(result).toBe('expected result');
@@ -41,13 +41,13 @@ describe('CommandBus', () => {
       let thrownError: any;
 
       try {
-        await target.execute('my command');
+        await target.execute('my command', { id: 1111 });
       } catch (error) {
         thrownError = error;
       }
 
       expect(get).toHaveBeenCalledTimes(1);
-      expect(get).toHaveBeenCalledWith('my command');
+      expect(get).toHaveBeenCalledWith('my command', { id: 1111 });
       expect(thrownError).toBeInstanceOf(CommandHandlerNotFoundException);
     });
   });

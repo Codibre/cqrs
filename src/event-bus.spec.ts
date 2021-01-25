@@ -52,7 +52,7 @@ describe('EventBus', () => {
       const result = await callback('my command');
 
       expect(get).toHaveBeenCalledTimes(1);
-      expect(get).toHaveBeenCalledWith('my command');
+      expect(get).toHaveBeenCalledWith('my command', undefined);
       expect(handle).toHaveBeenCalledTimes(1);
       expect(handle).toHaveBeenCalledWith('my command');
       expect(result).toBeUndefined();

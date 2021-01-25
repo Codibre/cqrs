@@ -1,5 +1,5 @@
 import { Injectable, Type } from '@nestjs/common';
-import { ModuleRef } from '@nestjs/core';
+import { ModuleRef, ContextId } from '@nestjs/core';
 import 'reflect-metadata';
 import { QUERY_HANDLER_METADATA } from './decorators/constants';
 import { QueryHandlerNotFoundException } from './exceptions';
@@ -46,9 +46,9 @@ export class QueryBus<QueryBase extends IQuery = IQuery>
 
   async execute<T extends QueryBase, TResult = any>(
     query: T,
-    moduleRef?: ModuleRef,
+    contextId?: ContextId,
   ): Promise<TResult> {
-    const handler = await this.handlers.get(query, moduleRef);
+    const handler = await this.handlers.get(query, contextId);
     if (!handler) {
       throw new QueryHandlerNotFoundException(getClassName(query));
     }
