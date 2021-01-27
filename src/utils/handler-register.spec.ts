@@ -194,7 +194,7 @@ describe('utils/HandlerRegister', () => {
     it('should return a singleton handler when a singleton instance is available', async () => {
       target['singletonHandlers'].set('commandName', 'singleton handler');
 
-      const result = await target.get('command');
+      const result = await target.get('command', undefined);
 
       expect(getClassNameLib.getClassName).toHaveBeenCalledTimes(1);
       expect(getClassNameLib.getClassName).toHaveBeenCalledWith('command');
@@ -203,10 +203,10 @@ describe('utils/HandlerRegister', () => {
       expect(result).toBe('singleton handler');
     });
 
-    it('should return a scoped handler when a singleton instance is available', async () => {
+    it('should return a scoped handler when a singleton instance is not available', async () => {
       target['scopedHandlers'].set('commandName', 'scoped handler type' as any);
 
-      const result = await target.get('command');
+      const result = await target.get('command', undefined);
 
       expect(getClassNameLib.getClassName).toHaveBeenCalledTimes(1);
       expect(getClassNameLib.getClassName).toHaveBeenCalledWith('command');
@@ -216,6 +216,23 @@ describe('utils/HandlerRegister', () => {
       expect(moduleRef.resolve).toHaveBeenCalledWith(
         'scoped handler type',
         'contextId',
+        { strict: false },
+      );
+      expect(result).toBe('scoped handler');
+    });
+
+    it('should return a scoped handler using the informed contextId when a singleton instance is not available', async () => {
+      target['scopedHandlers'].set('commandName', 'scoped handler type' as any);
+
+      const result = await target.get('command', { id: 191919 });
+
+      expect(getClassNameLib.getClassName).toHaveBeenCalledTimes(1);
+      expect(getClassNameLib.getClassName).toHaveBeenCalledWith('command');
+      expect(ContextIdFactory.create).toHaveBeenCalledTimes(0);
+      expect(moduleRef.resolve).toHaveBeenCalledTimes(1);
+      expect(moduleRef.resolve).toHaveBeenCalledWith(
+        'scoped handler type',
+        { id: 191919 },
         { strict: false },
       );
       expect(result).toBe('scoped handler');
