@@ -16,5 +16,5 @@ export * from './interfaces';
 export * from './operators';
 export * from './query-bus';
 export * from './utils';
-export * from './transient-command-bus';
-export * from './transient-query-bus';
+export * from './scoped-command-bus';
+export * from './scoped-query-bus';

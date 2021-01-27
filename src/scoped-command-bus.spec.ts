@@ -1,15 +1,15 @@
 import { ContextIdFactory, REQUEST } from '@nestjs/core';
 import { CommandBus } from './command-bus';
-import { TransientCommandBus } from './transient-command-bus';
+import { ScopedCommandBus } from './scoped-command-bus';
 
 
-describe('TransientCommandBus', () => {
-    let target: TransientCommandBus;
+describe('ScopedCommandBus', () => {
+    let target: ScopedCommandBus;
     let commandBus: CommandBus;
 
     beforeEach(() => {
         commandBus = {} as any,
-        target = new TransientCommandBus(commandBus, 'current request');
+        target = new ScopedCommandBus(commandBus, 'current request');
     });
 
     describe('.execute()', () => {
